@@ -59,12 +59,27 @@ exports.loginUser = async (req, res) => {
         res.status(200).json({
             id: user._id,
             user,
-            token: generateToken(user._id)
+            token: generateToken(user._id),
         });
-    }
-    catch (err) {
+    } catch (err) {
         res
             .status(500)
-            .json({ message: "Error registering user", error: err.message });
+            .json({ message: "Error Logging in user", error: err.message });
+    }
+};
+
+exports.getUserInfo = async (req, res) => {
+    try {
+        const user = await User.findById(req.body._id).select("-password");
+
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        res.status(200).json(user);
+    } catch (err) {
+        return res
+            .status(500)
+            .json({ message: "Error get the info", error: err.message });
     }
 };
