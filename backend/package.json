@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "dev": "nodemon srever.js"
+    "dev": "nodemon srever.js",
+    "debug": "node --inspect-brk server.js"
   },
   "keywords": [],
   "author": "",
