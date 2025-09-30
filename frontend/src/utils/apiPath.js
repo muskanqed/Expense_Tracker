@@ -22,4 +22,7 @@ export const API_PATH = {
         DELETE_INCOME: (incomeId) => `/api/v1/income/${incomeId}`,
         DOWNLOAD_INCOME: `/api/v1/income/downloadLoadExcel`,
     },
+    IMAGE: {
+        UPLOAD_IMAGE: "/api/v1/auth/upload-image"
+    }
 }
