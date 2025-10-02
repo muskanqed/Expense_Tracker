@@ -2,6 +2,7 @@ import React, { useContext } from 'react'
 import { SIDE_MENU_DATA } from '../../utils/data'
 import { UserContext } from '../../context/userContext'
 import { useNavigate } from "react-router-dom"
+import CharAvatar from '../Cards/CharAvatar'
 
 const SideMenu = ({ activeMenu }) => {
     const { user, clearUser } = useContext(UserContext);
@@ -23,22 +24,24 @@ const SideMenu = ({ activeMenu }) => {
         navigate("/login");
     }
     return (
-        <div className="w-[220px] h-screen bg-white shadow-md p-5">
-            {/* Profile Section */}
-            <div className="flex flex-col items-center mb-8">
-                {user?.profileImageUrl ? (
-                    <img
-                        src={user?.profileImageUrl || ""}
-                        alt="Profile"
-                        className="w-16 h-16 rounded-full object-cover mb-3 border"
-                    />
-                ) : (
-                    <div className="w-16 h-16 rounded-full bg-gray-200 mb-3"></div>
-                )}
-                <h5 className="text-sm font-medium text-gray-800">
-                    {user?.fullName || ""}
-                </h5>
-            </div>
+        <div className="flex flex-col items-center mb-8">
+            {user?.profileImageUrl ? (
+                <img
+                    src={user.profileImageUrl}
+                    alt="Profile Image"
+                    className="w-16 h-16 rounded-full object-cover mb-3 border"
+                />
+            ) : (
+                <CharAvatar
+                    fullName={user?.fullName || "Unknown"}
+                    width="w-20"
+                    height="h-20"
+                    style="text-xl mb-3"
+                />
+            )}
+            <h5 className="text-sm font-medium text-gray-800">
+                {user?.fullName || ""}
+            </h5>
 
             {/* Menu Items */}
             <div className="flex flex-col gap-2">
@@ -60,7 +63,7 @@ const SideMenu = ({ activeMenu }) => {
                     </button>
                 ))}
             </div>
-        </div>
+        </div >
     )
 }
 
