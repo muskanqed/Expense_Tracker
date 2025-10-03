@@ -1,6 +1,7 @@
 import React from "react";
 import { LuArrowRight } from "react-icons/lu";
-import TransactionInfoCard from "../Cards/TransactionInfoCard"; // adjust path
+import TransactionInfoCard from "../Cards/TransactionInfoCard";
+import moment from "moment";
 
 const RecentTransactions = ({ transactions = [], onSeeMore, onDelete }) => {
     return (
@@ -15,14 +16,14 @@ const RecentTransactions = ({ transactions = [], onSeeMore, onDelete }) => {
             </div>
 
             {/* Transactions List */}
-            <div className="flex flex-col">
+            <div className="mt-6    ">
                 {transactions.length > 0 ? (
                     transactions.slice(0, 5).map((item) => (
                         <TransactionInfoCard
                             key={item._id}
                             title={item.type === 'expense' ? item.category : item.source}
                             icon={item.icon}
-                            date={item.date}
+                            date={moment(item.date).format("Do MMM YYYY")}
                             amount={item.amount}
                             type={item.type}
                             hideDeleteBtn={!onDelete}

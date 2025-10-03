@@ -9,8 +9,8 @@ import { LuHandCoins, LuWalletMinimal } from 'react-icons/lu';
 import { IoMdCard } from 'react-icons/io';
 import { addThousandsSeparator } from '../../utils/helper';
 import RecentTransactions from '../../components/Dashboard/RecentTransactions';
-import moment from 'moment';
 import TransactionInfoCard from '../../components/Cards/TransactionInfoCard';
+import FinanceOverview from '../../components/Dashboard/FinanceOverview';
 
 const Home = () => {
   useUserAuth();
@@ -70,20 +70,13 @@ const Home = () => {
             transactions={dashboardData?.recentTransactions}
             onSeeMore={() => { navigate("/expense") }}
           />
-        </div>
 
-        <div className='mt-6'>
-          {dashboardData?.transactions?.slice(0, 5).map((item) => (
-            <TransactionInfoCard
-              key={item._id}
-              title={item.type === 'expense' ? item.category : item.source}
-              icon={item.icon}
-              date={moment(item.date).format("Do MMM YYYY")}
-              amount={item.amount}
-              type={item.type}
-              hideDeleteBtn
-            />
-          ))}
+          <FinanceOverview
+            totalBalance={dashboardData?.totalBalance || 0}
+            totalIncome={dashboardData?.totalIncome || 0}
+            totalExpense={dashboardData?.totalExpense || 0}
+          />
+
         </div>
       </div>
     </DashboardLayout>
