@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { LuUser, LuUpload, LuTrash } from "react-icons/lu";
 
 const ProfilePhotoSelector = ({ image, setImage }) => {
@@ -8,9 +8,7 @@ const ProfilePhotoSelector = ({ image, setImage }) => {
     const handleImageChange = (event) => {
         const file = event.target.files[0];
         if (file) {
-            // Update the image state with the file
             setImage(file);
-            // Generate the preview URL from the valid file
             const preview = URL.createObjectURL(file);
             setPreviewUrl(preview);
         }
@@ -24,6 +22,17 @@ const ProfilePhotoSelector = ({ image, setImage }) => {
     const onChooseFile = () => {
         inputRef.current.click();
     };
+
+    // Cleanup object URL
+    useEffect(() => {
+        return () => {
+            if (previewUrl) URL.revokeObjectURL(previewUrl);
+        };
+    }, [previewUrl]);
+
+    // Decide which src to use
+    const imgSrc = previewUrl || (typeof image === "string" ? image : null);
+
     return (
         <div className="flex justify-center mb-6">
             <input
@@ -34,10 +43,9 @@ const ProfilePhotoSelector = ({ image, setImage }) => {
                 className="hidden"
             />
 
-            {!image ? (
+            {!imgSrc ? (
                 <div className="w-20 h-20 flex items-center justify-center bg-purple-100 rounded-full relative">
                     <LuUser className="text-4xl text-primary" />
-
                     <button
                         type="button"
                         className="w-8 h-8 flex items-center justify-center bg-primary text-white rounded-full absolute -bottom-1 -right-1"
@@ -49,13 +57,13 @@ const ProfilePhotoSelector = ({ image, setImage }) => {
             ) : (
                 <div className="relative">
                     <img
-                        src={previewUrl}
+                        src={imgSrc}
                         alt="Profile photo"
                         className="w-20 h-20 rounded-full object-cover"
                     />
                     <button
                         type="button"
-                        className="w-8 h-8 flex items-center justify-center bg-red-500 text-white rounded-full absolute -bottom-1 -right-1 "
+                        className="w-8 h-8 flex items-center justify-center bg-red-500 text-white rounded-full absolute -bottom-1 -right-1"
                         onClick={handleRemoveImage}
                     >
                         <LuTrash />
